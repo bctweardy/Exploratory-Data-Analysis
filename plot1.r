@@ -19,10 +19,11 @@ Master2 <- Master[Master$Date == "2/2/2007", ]
 Master3 <- rbind(Master1, Master2)    ##Data set of both dates combined.
 
 
-png("plot1.png", width = 480, height = 480, bg = "transparent")
+png("plot1.png", width = 480, height = 480, bg = "white")
 
 hist(Master3$Global_Active_Power, main = "Global Active Power",
      xlab = "Global Active Power (kilowatts)",
      col = "red")
 
 dev.off()
+

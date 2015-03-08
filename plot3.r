@@ -21,11 +21,16 @@ Master3 <- rbind(Master1, Master2)    ##Data set of both dates combined.
 
 
 Master3$DateTime <- strptime(paste(Master3$Date, Master3$Time, sep=" "), 
-                          format="%d/%m/%Y %H:%M:%S")
+                             format="%d/%m/%Y %H:%M:%S")
 
-png("plot2.png", width = 480, height =480)
+png("plot3.png", width = 480, height = 480)
 
-plot(Master3$DateTime, Master3$Global_Active_Power, type = "l", xlab = " ", 
-     ylab = "Global Active Power (kilowatts)") 
+plot(Master3$DateTime, Master3$Sub_Metering_1, type = "l", xlab = "", 
+     ylab = "Energy Sub Metering", col = "black") 
+lines(Master3$DateTime, Master3$Sub_Metering_2, col = "red")
+lines(Master3$DateTime, Master3$Sub_Metering_3, col = "blue")
+
+legend("topright", col = c("black", "red", "blue"), c("Sub_Metering_1", "Sub_Metering_2", "Sub_Metering_3"),
+      lty = 1, lwd = 2.5)
 
 dev.off()

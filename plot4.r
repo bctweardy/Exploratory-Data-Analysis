@@ -9,6 +9,7 @@ data <- read.table(the_data, header = TRUE, sep = ";", na.string = "?",
 as.Date(data$Date, format = "%d-%m-%Y")
 strptime(data$Time, format = "H%:M%:S%")
 
+
 ## Creating a data frame of the data.
 Master <- data.frame(data)
 
@@ -19,11 +20,29 @@ Master2 <- Master[Master$Date == "2/2/2007", ]
 Master3 <- rbind(Master1, Master2)    ##Data set of both dates combined.
 
 
-png("plot1.png", width = 480, height = 480)
+Master3$DateTime <- strptime(paste(Master3$Date, Master3$Time, sep=" "), 
+                             format="%d/%m/%Y %H:%M:%S")
 
-hist(Master3$Global_Active_Power, main = "Global Active Power",
-     xlab = "Global Active Power (kilowatts)",
-     col = "red")
+png("plot4.png")
+
+four_plots <- par(mfrow = c(2, 2), mfcol = c(2,2))
+
+plot(Master3$DateTime, Master3$Global_Active_Power, type = "l", xlab = " ", 
+     ylab = "Global Active Power (kilowatts)") 
+
+plot(Master3$DateTime, Master3$Sub_Metering_1, type = "l", xlab = "", 
+     ylab = "Energy Sub Metering", col = "black") 
+  lines(Master3$DateTime, Master3$Sub_Metering_2, col = "red")
+  lines(Master3$DateTime, Master3$Sub_Metering_3, col = "blue")
+  legend("topright", col = c("black", "red", "blue"), c("Sub_Metering_1", "Sub_Metering_2", "Sub_Metering_3"),
+       lty = 1, lwd = 2.5)
+
+plot(Master3$DateTime, Master3$Voltage, type = "l", xlab = "datetime", 
+     ylab = "Voltage")
+
+plot(Master3$DateTime, Master3$Global_Reactive_Power, type = "l", xlab = "datetime", 
+     ylab = "Global_Reactive_Power")
+
+par(four_plots)
 
 dev.off()
-
